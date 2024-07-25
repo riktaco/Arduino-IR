@@ -31,6 +31,5 @@ void loop() {
             // Print decoded command to serial
             Serial.println(IrReceiver.decodedIRData.command, HEX); 
         }
-        Serial.println();
     }
 }
