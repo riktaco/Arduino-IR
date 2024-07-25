@@ -1,5 +1,6 @@
 import serial
 import pyautogui
+import webbrowser
 
 # Set up the serial connection
 ser = serial.Serial('COM3', 115200)
@@ -21,6 +22,9 @@ def move_cursor(command):
     elif command == '40':
         pyautogui.click()
         print("Clicked")
+    elif command == '45':
+        webbrowser.open("https://www.netflix.com")
+        print("Opened Netflix")
     else:
         print("Invalid command")
 
