@@ -1,7 +1,10 @@
 #include <Arduino.h>
+#include <IRremote.hpp> // include the library
+
 #define DECODE_NEC // Includes Apple and Onkyo
 #define IR_RECEIVE_PIN      2
-#include <IRremote.hpp> // include the library
+
+int buzzer_pin = 6;
 
 void setup() {
     Serial.begin(115200);
@@ -15,6 +18,8 @@ void setup() {
 
     Serial.print(F("Ready to receive IR signals of protocols: "));
     printActiveIRProtocols(&Serial);
+
+    pinMode(buzzer_pin, OUTPUT);
 }
 
 void loop() {
@@ -30,6 +35,25 @@ void loop() {
             IrReceiver.resume(); // Early enable receiving of the next IR frame
             // Print decoded command to serial
             Serial.println(IrReceiver.decodedIRData.command, HEX); 
+            
+            // Play sound on passive buzzer 
+            switch(IrReceiver.decodedIRData.command){
+                case 0x40:
+                    IrReceiver.stopTimer(); // Must stop the IR timer to prevent the tone function from affecting the timer
+                    tone(buzzer_pin, 1500, 8);
+                    delay(8);
+                    IrReceiver.restartTimer(8000); 
+                    break;
+                case 0x46:
+                case 0x15:
+                case 0x44:
+                case 0x43:
+                    IrReceiver.stopTimer(); 
+                    tone(buzzer_pin, 500, 8);
+                    delay(8);
+                    IrReceiver.restartTimer(8000); 
+                    break;
+            }
         }
     }
 }

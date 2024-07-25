@@ -18,6 +18,9 @@ def move_cursor(command):
     elif command == '43':
         pyautogui.moveRel(25, 0)
         print("Moving cursor right")
+    elif command == '40':
+        pyautogui.click()
+        print("Clicked")
     else:
         print("Invalid command")
 
