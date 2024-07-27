@@ -5,7 +5,7 @@ import webbrowser
 # Set up the serial connection
 ser = serial.Serial('COM3', 115200)
 
-cursor_speed = 25
+cursor_speed = 30
 ser.write(str(cursor_speed).encode())
 
 # Function to move the cursor based on the received command
@@ -30,11 +30,11 @@ def move_cursor(command):
         webbrowser.open("https://www.netflix.com")
         print("Opened Netflix")
     elif command == '9':
-        cursor_speed+=5
+        cursor_speed+=10
         send_data(str(cursor_speed))
         print("Speed increased")
     elif command == '7':
-        cursor_speed-=5
+        cursor_speed-=10
         send_data(str(cursor_speed))
         print("Speed decreased")
     else:

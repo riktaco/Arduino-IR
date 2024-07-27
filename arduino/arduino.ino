@@ -55,6 +55,8 @@ void loop() {
                 case 0x15:
                 case 0x44:
                 case 0x43:
+                case 0x9:
+                case 0x7:
                     IrReceiver.stopTimer(); 
                     tone(buzzer_pin, 500, 8);
                     delay(8);
