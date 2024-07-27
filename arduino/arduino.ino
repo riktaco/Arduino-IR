@@ -1,10 +1,12 @@
 #include <Arduino.h>
+#include <LiquidCrystal.h>
 #include <IRremote.hpp> // include the library
 
 #define DECODE_NEC // Includes Apple and Onkyo
-#define IR_RECEIVE_PIN      2
+#define IR_RECEIVE_PIN      12
 
-int buzzer_pin = 6;
+const int buzzer_pin = 11, rs = 2, en = 3, d4 = 4, d5 = 5, d6 = 6, d7 = 7;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup() {
     Serial.begin(115200);
@@ -20,6 +22,11 @@ void setup() {
     printActiveIRProtocols(&Serial);
 
     pinMode(buzzer_pin, OUTPUT);
+    
+    // set up the LCD's number of columns and rows:
+    lcd.begin(16, 2);
+    // Print a message to the LCD.
+    lcd.print("Speed:");
 }
 
 void loop() {
@@ -55,5 +62,12 @@ void loop() {
                     break;
             }
         }
+    }
+    if (Serial.available()) {
+        String receivedData = Serial.readStringUntil('\n');  // Read the incoming data
+        Serial.print("Received: ");
+        Serial.println(receivedData);  // Print the received data
+        lcd.setCursor(0, 1);
+        lcd.print(receivedData);
     }
 }
